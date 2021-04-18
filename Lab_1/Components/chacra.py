@@ -1,53 +1,13 @@
 import vtk
 import math
+import random
 
-#Equation
+#Class for the Sphere
 class Point:
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
-
-class BuildTree:
-    def __init__(self,quantity,topbyNivel,center):#center = radio
-        self.leaf = False
-        self.quantity = quantity
-        self.tope = 4
-        self.topbyNivel = topbyNivel
-        self.point
-        self.center  = center
-    def insert(self,pointNew):
-        #new_point = Point(x,y,z)
-        self.point = pointNew
-
-        for item in range(item,topbyNivel+1):
-            cont = 0;
-            if(self.quantity >= 4**item):
-                self.quantity = self.quantity - 4
-
-
-        self.quantity  -= 1
-        #self.point.append(new_point)
-        #if(self.topbyNivel >= 4):
-        if(self.quantity >= 4):
-            #updateP = Point(pointNew.x,pointNew.y,pointNew.z)
-            #for i in range(self.leaf):
-                
-            
-            self.leafXPos = BuildTree(self.quantity,self.topbyNivel,self.center)
-            self.leafXNeg = BuildTree(self.quantity,self.topbyNivel,self.center)
-            self.leafZPos = BuildTree(self.quantity,self.topbyNivel,self.center)
-            self.leafZNeg = BuildTree(self.quantity,self.topbyNivel,self.center)
-            self.leafXPos.leaf = True
-            self.leafXNeg.leaf = True
-            self.leafZPos.leaf = True
-            self.leafZNeg.leaf = True
-            
-            self.leafXPos.insert(Point(self.point.x + self.center,self.point.y - self.center*2,self.point.z))
-            self.leafXNeg.insert(Point(self.point.x - self.center,self.point.y-self.center*2,self.point.z))
-            self.leafZPos.insert(Point(self.point.x,self.point.y-self.center*2,self.point.z + self.center))
-            self.leafZNeg.insert(Point(self.point.x,self.point.y-self.center*2,self.point.z - self.center))
-
 
 # source
 ## Tronco
@@ -84,9 +44,9 @@ actorTrunk.SetPosition(0.0,0.0,0.0)#(x,y,z)
 
 ##Hojas
 #establecer el numero de esferas
-quantitySphere = 341
+quantitySphere = 25
 topbyNivel = int(math.log(quantitySphere,4)) #altura del arbol 4^n
-dia = 0.6
+dia = 0.4
 point = Point(0.0,0.8+(dia * topbyNivel),0.0) #maxima altura
 
 actorLeaf = vtk.vtkActor()
@@ -98,7 +58,7 @@ arraySphere = []
 quantitySphere -=1
 #for quantitySphere in range(quantitySphere-1):
 indexArray = 0
-for quantityNivel in range(1,topbyNivel+1):
+for quantityNivel in range(1,topbyNivel+2): #uno mas para los restantes
     qSphereSave = 4**quantityNivel
     if (quantitySphere >= qSphereSave):
         quantitySphere -= qSphereSave
@@ -124,18 +84,26 @@ for quantityNivel in range(1,topbyNivel+1):
                 arraySphere.append(pointZNeg)
             indexArray = 4**(quantityNivel-1)
         
-     #   else:
-            
-    #else:
-
-    
-
-#tree = BuildTree(quantitySphere-1,topbyNivel,0.3)#radio
-#tree.insert(point)
-
-
-
-
+    else:
+        
+        if(len(arraySphere) == 0):
+            print('hola')
+        else:
+            for i in range(quantitySphere):
+                leafRandom=random.randint(indexArray, len(arraySphere)-1)
+                position=random.randint(1, 4)
+                if (position == 1):
+                    pointXPos = Point(arraySphere[leafRandom].x+0.1,arraySphere[leafRandom].y-dia+0.2,arraySphere[leafRandom].z)
+                    arraySphere.append(pointXPos)
+                elif (position == 2):
+                    pointXNeg = Point(arraySphere[leafRandom].x-0.1,arraySphere[leafRandom].y-dia+0.2,arraySphere[leafRandom].z)
+                    arraySphere.append(pointXNeg)
+                elif (position == 3):
+                    pointZPos = Point(arraySphere[leafRandom].x,arraySphere[leafRandom].y-dia+0.2,arraySphere[leafRandom].z+0.1)
+                    arraySphere.append(pointZPos)
+                elif (position == 4):
+                    pointZNeg = Point(arraySphere[leafRandom].x,arraySphere[leafRandom].y-dia+0.2,arraySphere[leafRandom].z-0.1)
+                    arraySphere.append(pointZNeg)
 
 #axes
 transform = vtk.vtkTransform()
