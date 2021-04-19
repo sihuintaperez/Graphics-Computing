@@ -2,7 +2,7 @@ import vtk
 import random
 import house as h
 import arbol as abl
-
+import sol
 
 # source
 ## Arbol
@@ -11,6 +11,9 @@ tree = abl.Tree()
 
 ## Casa
 house = h.House()
+
+## Sol
+sun = sol.Sun()
 
 # mapper
 ## Arbol
@@ -30,6 +33,25 @@ mapperCube3 = house.SetCube(0.1,1.1,1.4)#ventana
 ## Cerros
 mapperCerro1 = house.SetCone(10.0,15.0,60)#radio,height,resolution
 
+## Sol
+mapperSol = sun.SetSphere(2,50)#radio
+###Lineas del sol
+mapperLineas = sun.SetLineas(22,20,1.5,0.5,0.5)#resolution_1,resolution_2,scalX,scalY,scalZ
+
+
+# actor
+## Sol
+actorSol = sun.SetActorSphere(mapperSol,1,1,0,0,10,-40)#mapperSphere,r,g,b,posX,posY,posZ
+###Lineas del sol
+
+actorLinea1 = sun.SetActorLineas(mapperLineas,1,1,0,3,10,-40,0.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+actorLinea2 = sun.SetActorLineas(mapperLineas,1,1,0,-3,10,-40,0.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+actorLinea3 = sun.SetActorLineas(mapperLineas,1,1,0,2,13,-40,45.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+actorLinea4 = sun.SetActorLineas(mapperLineas,1,1,0,-2,13,-40,135.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+actorLinea5 = sun.SetActorLineas(mapperLineas,1,1,0,2,7,-40,315.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+actorLinea6 = sun.SetActorLineas(mapperLineas,1,1,0,-2,7,-40,225.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
+
+
 ## Cerros
 actorCerro1 = house.SetActorCube(mapperCerro1,11/255, 83/255, 69/255 ,7.0,5.0,-30.0)#color and pos
 actorCerro2 = house.SetActorCube(mapperCerro1,11/255, 83/255, 69/255 ,-7.0,5.0,-30.0)#color and pos
@@ -46,7 +68,6 @@ actorCone = house.SetActorCube(mapperCone,142/255, 156/255, 151/255,0,2.0,0)#col
 ### Chapa
 actorChapa = house.SetActorCube(mapperChapa,99/255, 87/255, 22/255,-0.4,-0.3,1.6)#color and pos
 
-#actor
 ## Arbol
 ### Tronco
 actorTrunk = tree.SetActorTrunk(mapperTrunk,2,0.0,1.5)#mapperTrunk,posx,posy,posz
@@ -66,6 +87,8 @@ axes.SetUserTransform(transform)
 #renderer
 renderer = vtk.vtkRenderer()
 renderer.SetBackground(0.0, 0.0, 0.0)
+
+renderer.AddActor(actorSol)
 renderer.AddActor(actorTrunk)
 renderer.AddActor(actorTrunk2)
 for pointLeaf in arraySphere:
@@ -83,6 +106,13 @@ renderer.AddActor(actorCone)
 renderer.AddActor(actorChapa)
 renderer.AddActor(actorCerro1)
 renderer.AddActor(actorCerro2)
+## sol
+renderer.AddActor(actorLinea1)
+renderer.AddActor(actorLinea2)
+renderer.AddActor(actorLinea3)
+renderer.AddActor(actorLinea4)
+renderer.AddActor(actorLinea5)
+renderer.AddActor(actorLinea6)
 
 
 ###### Estableciendo mas arboles
@@ -96,7 +126,7 @@ for i in range(quantityTree):
         positionZ=random.uniform(-30,30)
 
     actorTrunk_aux = tree.SetActorTrunk(mapperTrunk,positionX,0.0,positionZ)
-    quantityLeaf=random.randint(5,50)
+    quantityLeaf=random.randint(5,30)
     arraySphere_aux = tree.SetTree(quantityLeaf,positionX,1.6,positionZ)
     renderer.AddActor(actorTrunk_aux)
     for pointLeaf in arraySphere_aux:
