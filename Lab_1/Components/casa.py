@@ -101,6 +101,7 @@ actor7.SetMapper(mapper7)
 actor7.RotateY(-90)
 actor7.GetProperty().SetColor(92/255, 60/255, 35/255)
 actor7.SetPosition(-30,-70,30)
+
 #renderer
 renderer = vtk.vtkRenderer()
 renderer.SetBackground(0.0, 0.0, 0.0)
