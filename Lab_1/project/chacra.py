@@ -3,6 +3,7 @@ import random
 import house as h
 import arbol as abl
 import sol
+import nube as nube
 
 # source
 ## Arbol
@@ -14,6 +15,10 @@ house = h.House()
 
 ## Sol
 sun = sol.Sun()
+
+##nube
+nube = nube.clouds()
+
 
 # mapper
 ## Arbol
@@ -38,6 +43,8 @@ mapperSol = sun.SetSphere(2,50)#radio
 ###Lineas del sol
 mapperLineas = sun.SetLineas(22,20,1.5,0.5,0.5)#resolution_1,resolution_2,scalX,scalY,scalZ
 
+##nube
+mappernubes=nube.Setnform(20,20,6,2,2)
 
 # actor
 ## Sol
@@ -51,6 +58,12 @@ actorLinea4 = sun.SetActorLineas(mapperLineas,1,1,0,-2,13,-40,135.0)#mapperSpher
 actorLinea5 = sun.SetActorLineas(mapperLineas,1,1,0,2,7,-40,315.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
 actorLinea6 = sun.SetActorLineas(mapperLineas,1,1,0,-2,7,-40,225.0)#mapperSphere,r,g,b,posX,posY,posZ,rotate
 
+##nubes 
+actornube1 = nube.SetActornform(mappernubes,0,0,1,15,15,-30,0.1)
+actornube2 = nube.SetActornform(mappernubes,0,0,1,8,14,30,1.3)
+actornube3 = nube.SetActornform(mappernubes,0,0,1,-1,14,-18,-1.-2)
+actornube4 = nube.SetActornform(mappernubes,0,0,1,-8.5,11,15,0.0)
+actornube5 = nube.SetActornform(mappernubes,0,0,1,-15.2,14,6,0.0)
 
 ## Cerros
 actorCerro1 = house.SetActorCube(mapperCerro1,11/255, 83/255, 69/255 ,7.0,5.0,-30.0)#color and pos
@@ -113,7 +126,12 @@ renderer.AddActor(actorLinea3)
 renderer.AddActor(actorLinea4)
 renderer.AddActor(actorLinea5)
 renderer.AddActor(actorLinea6)
-
+##nube
+renderer.AddActor(actornube1)
+renderer.AddActor(actornube2)
+renderer.AddActor(actornube3)
+renderer.AddActor(actornube4)
+renderer.AddActor(actornube5)
 
 ###### Estableciendo mas arboles
 quantityTree = 100
